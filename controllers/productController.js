@@ -16,30 +16,7 @@ const upload = multer({ storage: storage });
 // Middleware to handle image upload
 const handleImageUpload = upload.single('image');
 
-// Function to update product
-/*const updateProduct = async (req, res) => {
-  const { id } = req.params;
-  const { name, price, stock } = req.body;
-  const image = req.file ? req.file.path : null; // Image file path
 
-  try {
-    const product = await Product.findById(id);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
-
-    product.name = name;
-    product.price = price;
-    product.stock = stock;
-    if (image) product.image = image;
-
-    await product.save();
-    res.json(product);
-  } catch (error) {
-    console.error("Error updating product:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};*/
 
 
 const updateProduct = async (req, res) => {
@@ -94,6 +71,19 @@ const updateProduct = async (req, res) => {
   }
 };
 
+const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.status(200).json(product);
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    res.status(500).json({ message: "Error fetching product", error: error.message });
+  }
+};
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
@@ -232,4 +222,4 @@ const createMultipleProducts = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, getAllProducts, updateProduct, deleteProduct, createMultipleProducts  };
+module.exports = { getProductById, createProduct, getAllProducts, updateProduct, deleteProduct, createMultipleProducts  };

@@ -28,7 +28,8 @@ const {
   getAllProducts,
   updateProduct,
   deleteProduct, 
-  createMultipleProducts  
+  createMultipleProducts,
+  getProductById 
 } = require('../controllers/productController');
 
 // Route to add a product
@@ -39,6 +40,8 @@ router.get('/', getAllProducts );
 router.put("/edit/:id", upload.single("image"), updateProduct); 
 
 router.delete("/delete/:id", deleteProduct);
+
+router.get("/:id", getProductById);
 
 router.post("/bulk",createMultipleProducts )
 
