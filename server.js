@@ -28,7 +28,7 @@ const app = express();
 app.use(express.json()); // Middleware to parse JSON bodies
 
 // Configure CORS
-const allowedOrigins = ['http://localhost:3000','http://localhost:3001', 'https://www.shaddyna.com', 'https://shaddyna-frontend.onrender.com']; // Add your frontend URL here
+const allowedOrigins = ['http://localhost:3000','http://localhost:3001', 'https://www.malexchemsupplies.com', 'https://malex.onrender.com']; // Add your frontend URL here
 app.use(
   cors({
     origin: allowedOrigins,
