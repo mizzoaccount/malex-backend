@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllUsers, getUserById, editUser } = require('../controllers/userController');
+const { getAllUsers, getUserById, editUser } = require('../controllers/users');
 const router = express.Router();
 
 // Route to get all users
@@ -11,4 +11,4 @@ router.get('/:id', getUserById);
 // Route to edit a user
 router.put('/:id', editUser);
 
-module.exports = router;
+module.exports = router; 
