@@ -71,7 +71,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/conversations', require('./routes/conversations'));
 app.use('/api/messages', require('./routes/messages'));
-
+ 
 // Socket.IO with proper CORS
 const io = socketio(server, {
   cors: {

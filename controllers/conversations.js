@@ -1,13 +1,38 @@
 const Conversation = require('../models/Conversation');
-const Message = require('../models/Message');
 
-// Get all conversations for a user
+/*exports.getConversations = async (req, res) => {
+  try {
+    console.log('[GET CONVERSATIONS] Request by user:', req.user.id);
+
+    const conversations = await Conversation.find({
+      'participants.userId': req.user.id
+    })
+    .populate('participants.userId', 'username avatar role isOnline')
+    .populate({
+      path: 'lastMessage',
+      select: 'content sender createdAt' // Only populate necessary fields
+    })
+    .sort('-updatedAt');
+
+    console.log(`[GET CONVERSATIONS] Found ${conversations.length} conversation(s) for user ${req.user.id}`);
+    res.json(conversations);
+  } catch (err) {
+    console.error('[GET CONVERSATIONS] Error fetching conversations:', err.message);
+    res.status(500).json({ message: 'Server error while fetching conversations.' });
+  }
+};*/
+
+// controllers/conversationController.js
 exports.getConversations = async (req, res) => {
   try {
     const conversations = await Conversation.find({
       'participants.userId': req.user.id
     })
     .populate('participants.userId', 'username avatar role isOnline')
+    .populate({
+      path: 'lastMessage',
+      select: 'content sender createdAt'
+    })
     .sort('-updatedAt');
 
     res.json(conversations);
@@ -15,6 +40,7 @@ exports.getConversations = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
 
 // Get a single conversation by ID
 exports.getConversation = async (req, res) => {
@@ -73,13 +99,9 @@ exports.createConversation = async (req, res) => {
         console.log('[GET/CREATE CONVERSATION] Looking for conversation with:', participantId);
 
         let conversation = await Conversation.findOne({
-            participants: {
-                $all: [
-                    { userId: currentUserId },
-                    { userId: participantId }
-                ]
-            }
+          'participants.userId': { $all: [currentUserId, participantId] }
         });
+        
 
         if (conversation) {
             console.log('[GET/CREATE CONVERSATION] Conversation found:', conversation._id);
