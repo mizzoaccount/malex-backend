@@ -43,9 +43,9 @@ const { authenticate, authorize } = require('../middleware/auth');
 router.post('/register', userRegisterValidator, userController.registerUser);
 router.post('/login', userLoginValidator, userController.loginUser);
 
+
 // Protected routes
 router.use(authenticate);
-
 // Current user routes
 router.get('/me', userController.getCurrentUser);
 router.put('/me', userController.updateCurrentUser);
